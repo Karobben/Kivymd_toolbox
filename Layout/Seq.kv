@@ -1,0 +1,70 @@
+MDBoxLayout:
+    padding: root.width * .05, root.height * .05,root.width * .05, root.height * .05
+    orientation: "vertical"
+    slid_font: slid_font
+
+    MDBoxLayout:
+        id: boxs
+        functions: None#{"aA":"a"}
+        label_c: 0, 0, 1, 1
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                id: seq_result
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                padding: 10, 10
+                text: "结果显示在这里"
+                color: boxs.label_c
+                pos_hint: {"center_x": .5}
+                font_name: './font/FangZhengKaiTiPinYinZiKu-1'
+                font_size: root.slid_font.value
+
+
+    MDBoxLayout:
+        orientation: "vertical"
+        MDBoxLayout:
+            padding: 0, 0, self.width * .2, 0
+            MDSlider:
+                id: slid_font
+                min: 0
+                max: 100
+                value: 40
+
+
+        MDTextField:
+            id: seq_input
+            hint_text: "Input Characters Here"
+            pos_hint: {"center_x": .5}
+            font_name: './font/FangZhengHeiTiJianTi-1'
+            font_size: 40
+
+        MDBoxLayout:
+            padding: 10, 10, 10, 10
+            MDBoxLayout:
+
+                MDRectangleFlatButton:
+                    id: upper
+                    padding: [10, 10, 10, 10]
+                    text: "Translate"
+                    pos_hint: {"center_x": .0, "center_y": .5}
+                    size: 48, 48
+                    #font_size: "30sp"
+                    on_release: boxs.functions#["aA"]
+
+            MDBoxLayout:
+
+                MDRectangleFlatButton:
+                    id: upper2
+                    padding: [10, 10, 10, 10]
+                    font_name: "./font/HuaKangXinZhuanTi-1"
+                    text: "篆体"
+                    icon: "file"
+                    #font_size: "30"
+                    size: 48, 48
+                    pos_hint: {"center_x": .1, "center_y": .5}
+                    on_release: #None #root.ConfirmPopup.popup_func

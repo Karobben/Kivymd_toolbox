@@ -1,0 +1,16 @@
+MDNavigationLayout:
+    ScreenManager:
+        Screen:
+            BoxLayout:
+                orientation: 'vertical'
+                MDToolbar:
+                    id: nav_banner
+                    title: "Tool Box"
+                    elevation: 10
+                    left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+                Widget:
+                    id: nav_widget
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        text: ""

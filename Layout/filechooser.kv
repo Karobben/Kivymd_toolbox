@@ -1,0 +1,30 @@
+#: kivy 1.10.0
+<ConfirmPopup>:
+    BoxLayout:
+        orientation: 'vertical'
+        FileChooserIconView:
+            id: filechooser
+            #background color
+            canvas.before:
+                Color:
+                    rgb: 30/255, 144/255, 120/255, 1
+                Rectangle:
+                    size: self.size
+                    pos: [.5, .5]
+
+            #filters: ['*.zip']
+            multiselect: True
+            text_color: 0, 0, 1, 1
+
+        GridLayout:
+            cols: 2
+            size_hint: 1,0.1
+            Button:
+                text: 'OK'
+                on_release: root.dispatch('on_answer', filechooser.selection, app.root)
+                size_hint: 1,0.2
+            Button:
+                id: cancel
+                text: 'Cancel'
+                on_release: root.dispatch('on_cancel', filechooser.selection, app.root)
+                size_hint: 1,0.2
