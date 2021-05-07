@@ -5,6 +5,7 @@ MDNavigationLayout:
                 orientation: 'vertical'
                 MDToolbar:
                     id: nav_banner
+                    icon: "android"
                     title: "Tool Box"
                     elevation: 10
                     left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
@@ -13,4 +14,7 @@ MDNavigationLayout:
 
     MDNavigationDrawer:
         id: nav_drawer
-        text: ""
+        text: "I am here "
+        BoxLayout:
+            MDLabel:
+                text: "Add something here"

@@ -60,8 +60,9 @@ class MainApp(MDApp):
 
         Tab1 = Tab(text="Bio")
         self.Button_test =  MDRectangleFlatButton(
-                text="Hello, World",
+                text="1234567890\nqwertyuiopasdfghjklzxcvbnm\nQWERTYUIOPASDFGHJKLZXCVBNM",
                 pos_hint={"center_x": 0.5, "center_y": 0.5},
+                font_name = "./font/icon-works-webfont-2",
                 on_release = self.ConfirmPopup.popup_func)
         Tab1.add_widget(self.Button_test)
         self.Widget_tabs.ids.tabs.add_widget(Tab1)
