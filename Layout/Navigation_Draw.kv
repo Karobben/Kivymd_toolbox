@@ -8,7 +8,7 @@ MDNavigationLayout:
                     icon: "android"
                     title: "Tool Box"
                     elevation: 10
-                    left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+                    left_action_items: [["", lambda x: nav_drawer.set_state("open")]]
                 Widget:
                     id: nav_widget
 
@@ -16,5 +16,9 @@ MDNavigationLayout:
         id: nav_drawer
         text: "I am here "
         BoxLayout:
+            id: nav_button
+
             MDLabel:
                 text: "Add something here"
+            MDRectangleFlatButton:
+                text: "Chinese Characters"
