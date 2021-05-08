@@ -21,9 +21,9 @@ class ConfirmPopup(BoxLayout):
         self.total_images = filename
         print(Window.size)
         if len(filename) >0:
-            MainPage.change_text(self.total_images)
+            MainPage.callback_file(self.total_images)
         else:
-            MainPage.change_text("Please Select a File")
+            MainPage.callback_file("Please Select a File")
 
     def on_cancel(self, filename, MainPage):
         pass

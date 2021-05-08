@@ -6,10 +6,11 @@ from kivymd.uix.tab import MDTabsBase
 from kivy.core.window import WindowBase
 from kivymd.icon_definitions import md_icons
 
-
 from kivymd.app import MDApp
 
 from libWidget.filechooser import ConfirmPopup
+
+import json
 
 WindowBase.softinput_mode = "below_target"
 
@@ -23,14 +24,13 @@ class Tab(FloatLayout, MDTabsBase):
 
 class MainApp(MDApp):
     ConfirmPopup = ConfirmPopup()
+    #Editor       = Editor()
     PATH = "."
     def change_text(self, Files):
         #self.the_time.text = str(Files)
         self.Button_test.text = Files[0]
         print("main screen", str(Files))
 
-    def F_test(self, *args):
-        print(123)
 
     def build(self):
         screen = Screen()
@@ -51,6 +51,7 @@ class MainApp(MDApp):
     # Functions for Navigation Ta
     def on_start(self):
         from lib.bio_seq import Bio as FunBioSeq
+
         Fun = FunBioSeq()
         print(Fun.List())
 
@@ -59,59 +60,74 @@ class MainApp(MDApp):
             Function_page.ids.seq_result.text = Function_page.ids.seq_input.text.upper()
             Fun = FunBioSeq()
 
-        List = {"Seq":{'icon':"Characters",'title':"Sequencs Tools"}}
-        name_tab = "Bio"
-        Tab1 = Tab(
-                 text=f"[ref={name_tab}][color=#fa937f][font=font/heydings-icons-1]{'X'}[/font][/color][/ref]  {name_tab}")
-
-        self.Button_test =  MDRectangleFlatButton(
-                text="1234567890\nqwertyuiopasdfghjklzxcvbnm\nQWERTYUIOPASDFGHJKLZXCVBNM",
-                pos_hint={"center_x": 0.5, "center_y": 0.5},
-                font_name = "./font/icon-works-webfont-2",
-                on_release = self.ConfirmPopup.popup_func)
-        Tab1.add_widget(self.Button_test)
-        self.Widget_tabs.ids.tabs.add_widget(Tab1)
+        self.List = json.load(open('config/Navi.json'))
         '''
         Navigation test
         '''
-        Button_test =  MDRectangleFlatButton(
-                text="篆体",
-                pos_hint={"center_x": 0.5, "center_y": 0.5},
-                font_name = "./font/JingDianFanJiaoZhuan-1.ttf",
-                on_release = self.run_test)
-        self.Widget_navi.ids.nav_button.add_widget(Button_test)
-
-
+        Num = 0
+        L = [i for i in self.List.keys()]
+        for x in L:
+            print(x)
+            text = f"[font={self.List[x]['font']}]{self.List[x]['icon']}[/font]"
+            X = MDRectangleFlatButton(text =text)
+            #X.font = self.List[x]['font']
+            X.on_release = lambda Dic = x:self.add_tag(Dic)
+            self.Widget_navi.ids.nav_button.add_widget(X)
         '''
-        for i in List.keys():
-            tmp_tab = Tab(text=List[i]['icon'])
-            #Function = Builder.load_string(OPEN("Layout/"+i+".kv"))
-            from libWidget.Seq import FunctionWidget
-            Fun = FunctionWidget()
+            locals()["Btn_".format(self.List[i]['icon'])] =  MDRectangleFlatButton(
+                    text=self.List[i]['icon'],
+                    font_name = self.List[i]['font'],
+                    on_release =
+                        lambda x = i:self.add_tag(i))
+            self.Widget_navi.ids.nav_button.add_widget(locals()["Btn_".format(self.List[i]['icon'])])
+        '''
+        #from libWidget.Seq import FunctionWidget as tmp
+        Home_dic = json.load(open('config/home.json'))
+        for i in list(Home_dic.keys())[::-1]:
+            tmp_tab = Tab(text=f"[ref={self.List[i]['icon']}][color=#fa937f][font=font/heydings-icons-1]{'X'}[/font][/color][/ref]  [font={self.List[i]['font']}]{self.List[i]['icon']}[/font]")
+            Module = __import__('libWidget.'+i, globals(), locals(), [], 0)
+            Fun = eval("Module."+i+".FunctionWidget()")
             screen_tmp = Screen()
             screen_tmp.name = i
             screen_tmp.add_widget(Fun.main())
             tmp_tab.add_widget(screen_tmp)
             self.Widget_tabs.ids.tabs.add_widget(tmp_tab)
-        '''
-    def run_test(self, *args):
-        self.add_tag()
-        self.Widget_navi.ids.nav_drawer.set_state("close")
-        print(iter(list(self.Widget_tabs.ids.tabs.get_tab_list())))#switch_tab("X 篆书")
 
-    def add_tag(self, *args):
-        name_tab = " 篆书"
-        Tag_title =  f"[ref={name_tab}][font=font/heydings-icons-1][color=#fa937f]{'X'}[/color][/font][/ref][font=./font/JingDianFanJiaoZhuan-1]{name_tab}[/font]"
+
+    def add_tag(self, Dic):
+        print(Dic)
+        name_tab = self.List[Dic]['icon']
+        Tag_title =  f"[ref={name_tab}][font=font/heydings-icons-1][color=#fa937f]{'X'}[/color][/font][/ref][font=./font/JingDianFanJiaoZhuan-1][font={self.List[Dic]['font']}]{name_tab}[/font]"
 
         tmp_tab =Tab( text = Tag_title)
-        from libWidget.Seq import FunctionWidget
-        Fun = FunctionWidget()
+        Module = __import__('libWidget.'+Dic, globals(), locals(), [], 0)
+        Fun = eval("Module."+Dic+".FunctionWidget()")
         screen_tmp = Screen()
         screen_tmp.name = "Test"
         screen_tmp.add_widget(Fun.main())
         tmp_tab.add_widget(screen_tmp)
         self.Widget_tabs.ids.tabs.add_widget(tmp_tab)
         self.Widget_tabs.ids.tabs.switch_tab(Tag_title)
+        self.Widget_navi.ids.nav_drawer.set_state("close")
+        # Update Tages in  First page
+        self.HomeTabUpdate(Dic)
+
+    def HomeTabUpdate(self, Dic):
+        if Dic != None:
+            List = [icon.text.split("]")[0].replace("[ref=","") for icon in  self.Widget_tabs.ids.tabs.get_tab_list()]+[self.List[Dic]['icon']]
+            List.remove("")
+        else:
+            List = [icon.text.split("]")[0].replace("[ref=","") for icon in  self.Widget_tabs.ids.tabs.get_tab_list()]
+
+        List = list(set(List))
+        Result = []
+        for icon in List:
+            for Key in self.List.keys():
+                if self.List[Key]['icon']==icon:
+                    Result += [Key]
+        Home_dic = {x:self.List[x] for x in Result}
+        with open("config/home.json",'w') as F:
+            F.write(json.dumps(Home_dic))
 
 
     # Functions for Navigation Tab Switch
@@ -148,4 +164,5 @@ class MainApp(MDApp):
             if instance_tab.text == instance_tab_label.text:
                 instance_tabs.remove_widget(instance_tab_label)
                 break
+        self.HomeTabUpdate(Dic=None)
 MainApp().run()

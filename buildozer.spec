@@ -36,7 +36,7 @@ version = 1.3
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip, pillow==8.0.0, pypinyin, opencc-python-reimplemented
+requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip, pillow==8.0.0, pypinyin, opencc-python-reimplemented, docutils, android
 
 # plyer, pytube3, prettytable, docutils, https://github.com/kivymd/KivyMD/archive/master.zip,
 

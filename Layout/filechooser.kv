@@ -20,8 +20,9 @@
             cols: 2
             size_hint: 1,0.1
             Button:
+                id: select_ok
                 text: 'OK'
-                on_release: root.dispatch('on_answer', filechooser.selection, app.root)
+                on_release: root.dispatch('on_answer', filechooser.selection, root)
                 size_hint: 1,0.2
             Button:
                 id: cancel
