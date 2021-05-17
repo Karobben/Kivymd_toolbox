@@ -16,16 +16,17 @@ Screen:
 
 class Menu(MDFloatLayout):
     #menu = MDDropdownMenu()
+    Num = 4
     def __init__(self, **kwargs):
         #super().__init__(**kwargs)
-        menu_items = [{"text": f"Item {i}",
+        self.menu_items = [{"text": f"Item {i}",
                        "viewclass": "OneLineListItem",
                        'font_name': "./font/FangZhengHeiTiJianTi-1",
-                        "on_release": lambda x=f"Item {i}": self.menu_callback(x)} for i in range(4)]
+                        "on_release": lambda x=f"Item {i}": self.menu_callback(x)} for i in range(self.Num)]
         self.menu = MDDropdownMenu(
             #caller=self.screen.ids.button,
             caller= None,
-            items=menu_items,
+            items=self.menu_items,
             width_mult=4,
         )
         self.menu.bind(on_release=self.menu_callback)

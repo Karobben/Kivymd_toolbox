@@ -9,19 +9,21 @@ MDBoxLayout:
         label_c: 0, 0, 1, 1
 
         ScrollView:
-            do_scroll_x: False
+            do_scroll_x: True
             do_scroll_y: True
 
             Label:
                 id: seq_result
+                markup: True
+                size_hint_x: None
                 size_hint_y: None
                 height: self.texture_size[1]
-                text_size: self.width, None
+                width: self.texture_size[0]
+                text_size: None, None
                 padding: 10, 10
-                text: "结果显示在这里"
-                color: boxs.label_c
-                pos_hint: {"center_x": .5}
-                font_name: './font/FangZhengKaiTiPinYinZiKu-1'
+                text: "Result will not show here"
+                color: 70/255, 130/255, 180/255, 1
+                #font_name: './font/JingDianFanJiaoZhuan-1'
                 font_size: root.slid_font.value
 
 
@@ -34,37 +36,48 @@ MDBoxLayout:
                 min: 0
                 max: 100
                 value: 40
+    MDBoxLayout:
+        orientation: "horizontal"
+        MDBoxLayout:
 
-
-        MDTextField:
-            id: seq_input
-            hint_text: "Input Characters Here"
-            pos_hint: {"center_x": .5}
-            font_name: './font/FangZhengHeiTiJianTi-1'
-            font_size: 40
+            MDRectangleFlatButton:
+                id: button_select
+                text: "Clustal"
+                #font_name: './font/heydings-icons-2'
+                #font_size: 40
+                pos_hint: {"center_x": .0, "center_y": .5}
+                #width: root.width * 0.5
+                color: 70/255, 130/255, 180/255, 1
 
         MDBoxLayout:
-            padding: 10, 10, 10, 10
-            MDBoxLayout:
 
-                MDRectangleFlatButton:
-                    id: upper
-                    padding: [10, 10, 10, 10]
-                    text: "Translate"
-                    pos_hint: {"center_x": .0, "center_y": .5}
-                    size: 48, 48
-                    #font_size: "30sp"
-                    on_release: boxs.functions#["aA"]
+            MDTextButton:
+                id: button_load
+                text: "F"
+                font_name: './font/heydings-icons-2'
+                width: root.width * 0.5
+                pos_hint: {"center_x": .9, "center_y": .5}
+                font_size: 40
+                color: 70/255, 130/255, 180/255, 1
 
-            MDBoxLayout:
 
-                MDRectangleFlatButton:
-                    id: upper2
-                    padding: [10, 10, 10, 10]
-                    font_name: "./font/HuaKangXinZhuanTi-1"
-                    text: "篆体"
-                    icon: "file"
-                    #font_size: "30"
-                    size: 48, 48
-                    pos_hint: {"center_x": .1, "center_y": .5}
-                    on_release: #None #root.ConfirmPopup.popup_func
+<LoadDialog_Seq>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser2
+            path: "."
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: test
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser2.path, filechooser2.selection)

@@ -2,19 +2,41 @@
 BoxLayout:
     orientation: 'vertical'
     BoxLayout:
-        size_hint_y: None
-        height: 30
-        Button:
-            id: button_load
-            text: 'Load'
-        Button:
-            id: button_save
-            text: 'Save'
+        id: text_input_box
+        padding: 0, 0, 0, 0
 
-    BoxLayout:
         TextInput:
             id: text_input
+            padding: 20, 10, 20, 10
+            #mode: "rectangle"
+            #max_height: root.height - 20
+            height: self.minimum_height
+            auto_indent: True
+            #size_hint_y: None
+            multiline: True
             text: ''
+            hint_text: "Adding text here"
+            #readonly: True
+
+    BoxLayout:
+        size_hint_y: None
+
+        height: 30
+        MDRaisedButton:
+            id: button_load
+            text: 'F'
+            font_size: 30
+            font_name: './font/heydings-icons-1'
+            width: root.width * 0.5
+            line_color: 1, 1, 1, 1
+        MDRaisedButton:
+            id: button_save
+            text: 'l'
+            font_size: 30
+            font_name: './font/heydings-controls-1'
+            width: root.width * 0.5
+            line_color: 0, 0, 0, 1
+
 
 <LoadDialog>:
     BoxLayout:
@@ -48,7 +70,7 @@ BoxLayout:
             id: filechooser
             on_selection: text_input.text = self.selection and self.selection[0] or ''
 
-        TextInput:
+        MDTextFieldRect:
             id: text_input
             size_hint_y: None
             height: 30

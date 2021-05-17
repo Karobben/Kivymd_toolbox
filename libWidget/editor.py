@@ -6,6 +6,8 @@ from kivy.properties import ObjectProperty
 from kivy.utils import platform
 import os
 
+from kivy.core.window import Window
+
 
 class LoadDialog(FloatLayout):
     load = ObjectProperty(None)
@@ -34,8 +36,18 @@ class FunctionWidget():
         # save the file
         self.Function_page.ids.button_save.on_release = self.show_save
 
+        self.Function_page.ids.text_input.bind(focus= self.on_focus)
+        #self.Function_page.ids.text_input.max_height = WindowBase.height.defaultvalue
         return self.Function_page
 
+    def on_focus(self, instance, value):
+        if value:
+            self.Function_page.ids.text_input_box.padding = 0, int(Window.width * .45), 0, 0,
+        else:
+            self.Function_page.ids.text_input_box.padding = 0, 0 ,0, 0
+
+    def f_test(self):
+        print("Focused")
 
     def dismiss_popup(self):
         self._popup.dismiss()
@@ -53,6 +65,7 @@ class FunctionWidget():
         self._popup = Popup(title="Load file", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
+        print("WindowSize=",Window.height)
 
     def show_save(self):
         content = SaveDialog(save=self.save, cancel=self.dismiss_popup)

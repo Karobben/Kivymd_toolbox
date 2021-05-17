@@ -1,7 +1,7 @@
 # Kivymd_toolbox
 This is an android toolbox write by kivy. I'll keep updateing...
-<<<<<<< HEAD
-=======
+
+---
 
 Introduction:
 This app is contributed by four main directores: `libs`, `libWidget`, `Layout`, and `config`.
@@ -10,13 +10,14 @@ This app is contributed by four main directores: `libs`, `libWidget`, `Layout`, 
 - `config` is holding some data for initializing the App
 
 Functions:
-- [x] [Chinese Font Switch](#read_font)
-- [x] [Dynamic Tabs manager]()
-- [x] [Editor]()
+- [x] [Chinese Font Switch](#user-content-font)
+- [x] [Dynamic Tabs manager](#user-content-dynamic-tabs-manager)
+- [x] [Editor](#user-content-editor)
+- [x] [Web Server](#user-content-web-server)
 
 
 
-# <a id="read_font">Font</a>
+# Font
 
 This is a test function. You can change the font of the text you typed in with a menu button.
 
@@ -27,3 +28,6 @@ I moved the dictionary for tabs-initialize into `Navi.json` in `config` director
 # Editor
 
 This Tap makes you create/change files much easier than using other android since it reading files wiht python. You can read all text files with ignoring the suffix of the them. For example, '\*.md', "\*.fasta", "\*.css"
+
+# Web Server
+This is 

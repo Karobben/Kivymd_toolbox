@@ -1,0 +1,16 @@
+from kivy.lang import Builder
+from kivy.uix.popup import Popup
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.screenmanager import Screen
+from kivy.properties import ObjectProperty
+from kivy.utils import platform
+import os
+
+
+class FunctionWidget():
+
+
+    def main(self):
+        Builder.unload_file("Layout/**.kv")
+        self.Function_page = Builder.load_file("Layout/**.kv")
+        return self.Function_page

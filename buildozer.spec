@@ -7,7 +7,7 @@ title = "Karobben ToolBox"
 package.name = KarobbenTB
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = kivy
+package.domain = org.test
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -28,7 +28,7 @@ source.include_exts =
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 1.3
+version = 1.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,9 +36,27 @@ version = 1.3
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip, pillow==8.0.0, pypinyin, opencc-python-reimplemented, docutils, android
+#requirements = python3,kivy,opencv-contrib-python,numpy,imutils
+requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip,
+  openssl, requests, Urllib3, chardet, certifi, idna,
+  numpy, pillow==8.0.0, opencv,
+  opencc-python-reimplemented, docutils, android,
+  sqlite3, lxml, cymunk, pyjnius, twisted, plyer
 
-# plyer, pytube3, prettytable, docutils, https://github.com/kivymd/KivyMD/archive/master.zip,
+
+# openssl, requests, Urllib3, chardet, certifi, and idna for request
+# numpy, pillow==8.0.0, opencv for opencv
+# opencc-python-reimplemented: transplate chinese to traditional chinese
+# pygments, pyopenssl, ffpyplayer,  ffpyplayer_codecs, audiostream for unknow
+# ffmpeg, imageio,  imageio_ffmpeg, decorator, for moviepy
+#  biopython, matplotlib,
+# click, more_itertools, xopen,libbz2 for fasta-reader
+# xmltramp2 for sequence align
+# plumbing, matplotlib, sh, tqdm, and autopaths for module fasta
+# plyer, pytube3, prettytable,
+
+
+
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -70,7 +88,7 @@ orientation = all
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 1.11.1
+osx.kivy_version = 2.0.0
 
 #
 # Android specific
@@ -87,7 +105,7 @@ fullscreen = 0
 android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE
+android.permissions =  INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE, CAMERA
 
 # (int) Target Android API, should be as high as possible.
 #android.api = 27
@@ -111,7 +129,7 @@ android.permissions = INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, M
 #android.ndk_path =
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+android.sdk_path = /run/media/karobben/Data/Kivy2.0MD0.104.2.dP3.7.5/android-sdk/
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
@@ -125,13 +143,10 @@ android.permissions = INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, M
 # agreements. This is intended for automation only. If set to False,
 # the default, you will be shown the license when first running
 # buildozer.
-android.accept_sdk_license = True
+# android.accept_sdk_license = False
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
-
-# (str) Android app theme, default is ok for Kivy-based app
-# android.apptheme = "@android:style/Theme.NoTitleBar"
 
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
@@ -160,25 +175,11 @@ android.accept_sdk_license = True
 # bootstrap)
 #android.gradle_dependencies =
 
-# (list) add java compile options
-# this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option
-# see https://developer.android.com/studio/write/java8-support for further information
-# android.add_compile_options = "sourceCompatibility = 1.8", "targetCompatibility = 1.8"
-
-# (list) Gradle repositories to add {can be necessary for some android.gradle_dependencies}
-# please enclose in double quotes
-# e.g. android.gradle_repositories = "maven { url 'https://kotlin.bintray.com/ktor' }"
-#android.add_gradle_repositories =
-
-# (list) packaging options to add
-# see https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.PackagingOptions.html
-# can be necessary to solve conflicts in gradle_dependencies
-# please enclose in double quotes
-# e.g. android.add_packaging_options = "exclude 'META-INF/common.kotlin_module'", "exclude 'META-INF/*.kotlin_module'"
-#android.add_gradle_repositories =
-
 # (list) Java classes to add as activities to the manifest.
-#android.add_activities = com.example.ExampleActivity
+#android.add_activites = com.example.ExampleActivity
+
+# (str) python-for-android branch to use, defaults to master
+#p4a.branch = master
 
 # (str) OUYA Console category. Should be one of GAME or APP
 # If you leave this blank, OUYA support will not be enabled
@@ -196,7 +197,6 @@ android.accept_sdk_license = True
 # (list) Android additional libraries to copy into libs/armeabi
 #android.add_libs_armeabi = libs/android/*.so
 #android.add_libs_armeabi_v7a = libs/android-v7/*.so
-#android.add_libs_arm64_v8a = libs/android-v8/*.so
 #android.add_libs_x86 = libs/android-x86/*.so
 #android.add_libs_mips = libs/android-mips/*.so
 
@@ -211,30 +211,21 @@ android.accept_sdk_license = True
 # project.properties automatically.)
 #android.library_references =
 
-# (list) Android shared libraries which will be added to AndroidManifest.xml using <uses-library> tag
-#android.uses_library =
-
 # (str) Android logcat filters to use
 #android.logcat_filters = *:S python:D
 
 # (bool) Copy library instead of making a libpymodules.so
 #android.copy_libs = 1
 
-# (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
+# (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
 android.arch = armeabi-v7a
 
 #
 # Python for android (p4a) specific
 #
 
-# (str) python-for-android fork to use, defaults to upstream (kivy)
-#p4a.fork = kivy
-
-# (str) python-for-android branch to use, defaults to master
-#p4a.branch = master
-
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-#p4a.source_dir =
+#p4a.source_dir = /home/marco/python-for-android
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =
@@ -283,7 +274,7 @@ log_level = 2
 warn_on_root = 1
 
 # (str) Path to build artifact storage, absolute or relative to spec file
-build_dir = /media/ken/Data/Kivy_env/Kivy2Py3.8.1MD0.104.2.dev0/.buildozer
+build_dir = /run/media/karobben/Data/Kivy2.0MD0.104.2.dP3.7.5/.buildozer
 
 # (str) Path to build output (i.e. .apk, .ipa) storage
 # bin_dir = ./bin

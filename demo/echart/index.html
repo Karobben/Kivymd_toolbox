@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>数据可视化</title>
+	<!-- <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> -->
+	<meta name="viewport"content="width=1200, initial-scale=0.9"/> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="keywords" content="数据,可视化,数据可视化" />
+	<meta name="description" content="数据可视化" />
+	<link rel="shortcut icon"type="image/x-icon"href="./image/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="./css/index.css" />
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/echarts.min.js"></script>
+	<!-- <script type="text/javascript" src="./js/hammer.min.js"></script> -->
+	<!-- <script type="text/javascript" src="./js/jquery.drag.js"></script> -->
+	<!-- <script type="text/javascript" src="./js/jquery.mousewheel.js"></script> -->
+	<script src="https://webapi.amap.com/maps?v=1.4.8&key=c5275afb9258f34314bdbe23067c203d&plugin=AMap.MarkerClusterer,AMap.Autocomplete,AMap.PlaceSearch"></script>
+	<!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="./js/citymap.js"></script>
+</head>
+<body>
+	<!-- 主体容器 -->
+	<div class="container">
+		<!-- 头部 -->
+		<div class="header flex">
+			<img class="logo" src="./image/logo.png" alt="logo" />
+			<div class="header_content">
+				<ul class="flex">
+					<li class="active">今日关注</li>
+					<li>业务资产透视</li>
+					<li>业务操作透视</li>
+					<li>业务违规告警</li>
+					<li>业务监测报告</li>
+					<li>系统管理</li>
+				</ul>
+			</div>
+			<div class="login_box flex">
+				<div class="icon_img flex"><i class="user_icon"></i></div>
+				<button type="button" name="login" class="login">登录</button>
+				<button type="button" name="logout" class="logout">注销</button>
+			</div>
+		</div>
+
+		<!-- 主内容容器 -->
+		<div class="main_content flex">
+			<!-- 左边容器内容 -->
+			<div class="main_left">
+				<!-- 当前时间 -->
+				<div class="current_time hide">
+					<div class="time flex">
+						<span class="time_item hour"></span>
+						<span class="dot">:</span>
+						<span class="time_item minute"></span>
+						<span class="dot">:</span>
+						<span class="time_item second"></span>
+					</div>
+					<p class="date"></p>
+				</div>
+				<!-- 图表 -->
+				<div class="pie_chart">
+					<div class="border_line">
+						<span class="tr"></span>
+						<span class="tb"></span>
+						<span class="rt"></span>
+						<span class="rb"></span>
+					</div>
+					<p class="title">业务系统监测个数视图</p>
+					<div class="business_system" id="business_system" style="height:240px;"></div>
+				</div>
+				<!-- 最新实时数据 -->
+				<div class="latest_data newLatestData">
+					<div class="border_line">
+						<span class="tr"></span>
+						<span class="tb"></span>
+						<span class="rt"></span>
+						<span class="rb"></span>
+					</div>
+					<p class="title">监测数据分析视图</p>
+					<div class="list_data">
+						<div class="line_item line_head">
+							<span>业务系统名称</span>
+							<span>日均数据交互</span>
+							<span>威胁告警</span>
+							<span>活跃用户</span>
+						</div>
+						<div class="data_body">
+							<div class="line_item">
+								<span>业务安全系统</span>
+								<span>3002213</span>
+								<span>15</span>
+								<span>215</span>
+							</div>	
+							<div class="line_item">
+								<span>业务安全系统</span>
+								<span>3002213</span>
+								<span>15</span>
+								<span>215</span>
+							</div>	
+							<div class="line_item">
+								<span>业务安全系统</span>
+								<span>3002213</span>
+								<span>15</span>
+								<span>215</span>
+							</div>	
+							<div class="line_item">
+								<span>业务安全系统</span>
+								<span>3002213</span>
+								<span>15</span>
+								<span>215</span>
+							</div>	
+							<div class="line_item">
+								<span>业务安全系统</span>
+								<span>3002213</span>
+								<span>15</span>
+								<span>215</span>
+							</div>	
+						</div>
+					</div>
+				</div>
+				<!-- 柱状图数据 -->
+				<div class="bar_graph">
+					<div class="border_line">
+						<span class="tr"></span>
+						<span class="tb"></span>
+						<span class="rt"></span>
+						<span class="rb"></span>
+					</div>
+					<p class="title">业务账号登录统计图</p>
+					<div class="account_data" id="account_data" style="height:262px;"></div>
+				</div>
+			</div>
+			
+			<div class="main_right">
+				<!-- 监控的数据 -->
+				<div class="monitor_data">
+					<ul class="flex">
+						<li class="flex">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="item">
+								<p class="item_title">业务系统梳理</p>
+								<p class="item_data color1">5992223</p>
+							</div>
+						</li>
+						<li class="mr10"></li>
+						<li class="flex">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="item">
+								<p class="item_title">日均数据交互</p>
+								<p class="item_data color2">27</p>
+							</div>
+						</li>
+						<li class="mr10"></li>
+						<li class="flex">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="item">
+								<p class="item_title">持续监控</p>
+								<p class="item_data color3">258</p>
+							</div>
+						</li>
+						<li class="mr10"></li>
+						<li class="flex">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="item">
+								<p class="item_title">威胁告警</p>
+								<p class="item_data color4">27</p>
+							</div>
+						</li>
+						<li class="mr10"></li>
+						<li class="flex">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="item">
+								<p class="item_title">威胁告警</p>
+								<p class="item_data color5">335</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- 中心部分 -->
+				<div class="main_center flex">
+					<div class="left_box">
+						<!-- <p class="min_title flex">Quick V数据可视化展示</p> -->
+						<!-- 地图锚点 -->
+						<div class="map_box">
+							<div class="goback flex hide"><i class="goback_icon"></i></div>
+							<div class="scanning_animate" id="map" style="width:100%;height:548px;"></div>
+							<div class="gouldMap hide" id="gouldMap"></div>
+						</div>
+						<!-- 分布的数据折线图 -->
+						<div class="line_chart" style="border:none;box-shadow:none;">
+							<div class="border_line hide">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<div class="data_distribution" id="data_distribution" style="height:320px;"></div>	
+						</div>
+					</div>
+					<!-- 右边容器内容 -->
+					<div class="right_box">
+						<!-- 告警监测折线图 -->
+						<div class="monitor_box">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<p class="title">告警监测走势视图</p>
+							<div class="monitor_chart" id="monitor_chart" style="height:200px;"></div>
+						</div>
+						<!-- 最新业务账号告警列表 -->
+						<div class="latest_data">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<p class="title">业务账号告警</p>
+							<div class="operational_alarm">
+								<div class="line_item line_head">
+									<span>业务账号</span>
+									<span>使用IP</span>
+									<span>访问系统</span>
+									<span>告警时间</span>
+								</div>
+								<div class="data_body">
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+									<div class="line_item">
+										<span>业务安全系统</span>
+										<span>10.1.1.118</span>
+										<span>工单审批系统</span>
+										<span>6/19 22-08</span>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<!-- 业务系统检测告警分布堆叠条形图 -->
+						<div class="stacking_chart">
+							<div class="border_line">
+								<span class="tr"></span>
+								<span class="tb"></span>
+								<span class="rt"></span>
+								<span class="rb"></span>
+							</div>
+							<p class="title">业务系统检测告警分图</p>
+							<div class="bar_chart" id="bar_chart" style="height:260px;"></div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <script type="text/javascript" src="./js/jquery.min.js"></script> -->
+	<!-- <script type="text/javascript" src="./js/echarts.min.js"></script> -->
+	<script type="text/javascript" src="./js/jquery.similar.scroll.js"></script>
+	<script type="text/javascript" src="./js/app.js"></script>
+	<script>
+		window.onload = function() { 
+			/**
+			 * 时间处理方法
+			 */
+			function getNowFormatDate(type) {
+				var date = new Date();
+				var sign1 = "-";
+				var sign2 = ":";
+				var year = date.getFullYear() // 年
+				var month = date.getMonth() + 1; // 月
+				var day = date.getDate(); // 日
+				var hour = date.getHours(); // 时
+				var minutes = date.getMinutes(); // 分
+				var seconds = date.getSeconds() //秒
+				var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+				var week = weekArr[date.getDay()];
+				// 给一位数数据前面加 “0”
+				if (month >= 1 && month <= 9) { // 月
+					month = "0" + month;
+				}
+				if (day >= 0 && day <= 9) { // 日
+					day = "0" + day;
+				}
+				if (hour >= 0 && hour <= 9) { // 时
+					hour = "0" + hour;
+				}
+				if (minutes >= 0 && minutes <= 9) { // 分
+					minutes = "0" + minutes;
+				}
+				if (seconds >= 0 && seconds <= 9) { // 秒
+					seconds = "0" + seconds;
+				}
+				if (type == "day") {
+					var timeStr = year + " 年 " + month + " 月 " + day + " 日";
+					$(".date").text(timeStr);
+					$(".current_time").removeClass("hide");
+				} else {
+					$(".hour").text(hour);
+					$(".minute").text(minutes);
+					$(".second").text(seconds);
+					setTimeout
+					setTimeout(function() {
+						getNowFormatDate("time");
+					}, 1000)
+				}
+			}
+			getNowFormatDate("day"); // 当前的日期
+			getNowFormatDate("time"); // 当前的时间
+
+			$(".header_content li").on("click", function(e) {
+				$(".header_content li").removeClass("active");
+				$(this).addClass("active");
+			})
+
+			/**
+			 * 业务系统监测个数试图 （饼状图）
+			 */
+			function businessSystemFn() {
+				$("#business_system").css({width: $("#business_system").width()}); // 设置图表绘制的宽度
+				// 基于准备好的dom，初始化echarts实例
+		        var myChart = echarts.init(document.getElementById('business_system'));
+		        // 指定图表的配置项和数据
+				var option = {
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        top: 'middle',
+				        bottom: 10,
+				        left: 'center',
+				        data: []
+				    },
+				    series : [
+				        {
+				            type: 'pie',
+				            radius : '65%',
+				            center: ['50%', '50%'],
+				            selectedMode: 'single',
+				            itemStyle: {
+				                emphasis: {
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        },
+				        {
+				            name:'访问来源',
+				            type:'pie',
+				            radius: ['40%', '55%'],
+				            label: {
+				                normal: {
+				                    formatter: '{d}%',
+				                    backgroundColor: '#eee',
+				                    borderColor: '#aaa',
+				                    borderWidth: 1,
+				                    borderRadius: 4,
+				                    rich: {
+				                        a: {
+				                            color: '#999',
+				                            lineHeight: 22,
+				                            align: 'center'
+				                        },
+				                        hr: {
+				                            borderColor: '#aaa',
+				                            width: '100%',
+				                            borderWidth: 0.5,
+				                            height: 0
+				                        },
+				                        b: {
+				                            fontSize: 16,
+				                            lineHeight: 33
+				                        },
+				                        per: {
+				                            color: '#eee',
+				                            backgroundColor: '#334455',
+				                            padding: [2, 4],
+				                            borderRadius: 2
+				                        }
+				                    }
+				                }
+				            },
+				            data: [
+				                {value:335},
+				                {value:310, name:'邮件营销'},
+				                {value:234, name:'联盟广告'},
+				                {value:135, name:'视频广告'},
+				                {value:1048, name:'百度'},
+				                {value:251, name:'谷歌'},
+				                {value:147, name:'必应'},
+				                {value:102, name:'其他'}
+				            ]
+				        }
+				    ]
+				};
+		        // 使用刚指定的配置项和数据显示图表。
+		        myChart.setOption(option);
+			}
+			businessSystemFn();
+
+		    /**
+			 * 业务账号登录统计图 （柱状图）
+			 */
+			function accountDataFn() {
+				var myChart = echarts.init(document.getElementById('account_data'));
+				// 指定图表的配置项和数据
+				var option = {
+				    tooltip : {
+				        trigger: 'axis'
+				    },
+				    // legend: {
+				    //     data:['蒸发量','降水量']
+				    // },
+				    toolbox: {
+				        show : true,
+				        feature : {
+							// dataView : {show: true, readOnly: false},
+							// magicType : {show: true, type: ['line', 'bar']},
+							// restore : {show: true},
+							// saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+				    xAxis : [
+				        {
+				        	// splitLine: {
+							// 	show: false
+							// },
+				            type : 'category',
+				            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+			             	axisLabel: {
+                            	show: true,
+                            	textStyle: {color: '#fff'}
+                    		}
+				        }
+				    ],
+				    yAxis : [
+				        {
+				        	// splitLine: {
+							// 	show: false
+							// },
+				            type : 'value',
+				            axisLabel: {
+                            	show: true,
+                            	textStyle: {color: '#fff'}
+                    		}
+				        }
+				    ],
+				    series : [
+				        {
+				            name:'蒸发量',
+				            type:'bar',
+				            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+				            // markPoint : {
+				            //     data : [
+				            //         {type : 'max', name: '最大值'},
+				            //         {type : 'min', name: '最小值'}
+				            //     ]
+				            // },
+				            // markLine : {
+				            //     data : [
+				            //         {type : 'average', name: '平均值'}
+				            //     ]
+				            // }
+				        },
+				        {
+				            name:'降水量',
+				            type:'bar',
+				            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+				            // markPoint : {
+				            //     data : [
+				            //         {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
+				            //         {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+				            //     ]
+				            // },
+				            // markLine : {
+				            //     data : [
+				            //         {type : 'average', name : '平均值'}
+				            //     ]
+				            // }
+				        }
+				    ]
+				};
+			    // 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+			accountDataFn();
+
+			/**
+			 * 数据统计展示 （折线图）
+			 */
+			function dataDistributionFn() {
+				$("#data_distribution").css({width: $("#data_distribution").width()}); // 设置图表绘制的宽度
+				var myChart = echarts.init(document.getElementById('data_distribution'));
+				// 指定图表的配置项和数据
+				var option = {
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    // legend: {
+				    //     data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+				    // },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            // saveAsImage: {}
+				        }
+				    },
+				    xAxis: {
+				    	// splitLine: {
+						// 	show: false
+						// },
+				        type: 'category',
+				        boundaryGap: false,
+				        data: ['周一','周二','周三','周四','周五','周六','周日'],
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    yAxis: {
+				    	// splitLine: {
+						// 	show: false
+						// },
+				        type: 'value',
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    series: [
+				        {
+				            name:'邮件营销',
+				            type:'line',
+				            stack: '总量',
+				            data:[120, 132, 101, 134, 90, 230, 210]
+				        },
+				        {
+				            name:'联盟广告',
+				            type:'line',
+				            stack: '总量',
+				            data:[220, 182, 191, 234, 290, 330, 310]
+				        },
+				        {
+				            name:'视频广告',
+				            type:'line',
+				            stack: '总量',
+				            data:[150, 232, 201, 154, 190, 330, 410]
+				        },
+				        {
+				            name:'直接访问',
+				            type:'line',
+				            stack: '总量',
+				            data:[320, 332, 301, 334, 390, 330, 320]
+				        },
+				        {
+				            name:'搜索引擎',
+				            type:'line',
+				            stack: '总量',
+				            data:[820, 932, 901, 934, 1290, 1330, 1320]
+				        }
+				    ]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+			dataDistributionFn();
+
+		    /**
+			 * 告警监测走势视图 （折线图）
+			 */
+			function monitorChartFn() {
+				$("#monitor_chart").css({width: $("#monitor_chart").width()}); // 设置图表绘制的宽度
+				var myChart = echarts.init(document.getElementById('monitor_chart'));
+				// 指定图表的配置项和数据
+				var option = {
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    // legend: {
+				    //     data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+				    // },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            // saveAsImage: {}
+				        }
+				    },
+				    xAxis: {
+				    	// splitLine: {
+						// 	show: false
+						// },
+				        type: 'category',
+				        boundaryGap: false,
+				        data: ['周一','周二','周三','周四','周五','周六','周日'],
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    yAxis: {
+				    	// splitLine: {
+						// 	show: false
+						// },
+				        type: 'value',
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    series: [
+				        {
+				            name:'邮件营销',
+				            type:'line',
+				            stack: '总量',
+				            data:[120, 132, 101, 134, 90, 230, 210]
+				        },
+				        {
+				            name:'联盟广告',
+				            type:'line',
+				            stack: '总量',
+				            data:[220, 182, 191, 234, 290, 330, 310]
+				        },
+				        {
+				            name:'视频广告',
+				            type:'line',
+				            stack: '总量',
+				            data:[150, 232, 201, 154, 190, 330, 410]
+				        },
+				        {
+				            name:'直接访问',
+				            type:'line',
+				            stack: '总量',
+				            data:[320, 332, 301, 334, 390, 330, 320]
+				        },
+				        {
+				            name:'搜索引擎',
+				            type:'line',
+				            stack: '总量',
+				            data:[820, 932, 901, 934, 1290, 1330, 1320]
+				        }
+				    ]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+			monitorChartFn();
+
+			/**
+			 * 业务系统监测告警分布图 （柱状图）
+			 */
+			function barChartFn() {
+				$("#bar_chart").css({width: $("#bar_chart").width()}); // 设置图表绘制的宽度
+				var myChart = echarts.init(document.getElementById('bar_chart'));
+				// 指定图表的配置项和数据
+				var option = {
+				    tooltip : {
+				        trigger: 'axis',
+				        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+				            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+				        }
+				    },
+				    // legend: {
+				    //     data: ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎']
+				    // },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    xAxis:  {
+				  		splitLine: {
+							show: false
+						},
+				        type: 'value',
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    yAxis: {
+				    	splitLine: {
+							show: false
+						},
+				        type: 'category',
+				        data: ['周一','周二','周三','周四','周五'],
+				        axisLabel: {
+                        	show: true,
+                        	textStyle: {color: '#fff'}
+                		}
+				    },
+				    series: [
+				        {
+				            name: '直接访问',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [320, 302, 301, 334, 390]
+				        },
+				        {
+				            name: '邮件营销',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [120, 132, 101, 134, 90]
+				        },
+				        {
+				            name: '联盟广告',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [220, 182, 191, 234, 290]
+				        },
+				        {
+				            name: '视频广告',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [150, 212, 201, 154, 190]
+				        },
+				        {
+				            name: '搜索引擎',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [820, 832, 901, 934, 1290]
+				        }
+				    ]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+			barChartFn();
+
+
+			/**
+			 * 监测数据分析视图 （数据列表）
+			 */
+			 // list_data
+
+			/**
+			 * 业务账号告警 （数据列表）
+			 */
+			 // operational_alarm
+
+			$(function() {        
+        		$(".list_data .data_body").scroll({ direction: "y" }); // 监测数据分析视图自动滚动	
+        		$(".operational_alarm .data_body").scroll({ direction: "y" }); // 业务账号告警自动滚动	
+            	/*$("#map").on({
+    				mousedown: function(e) {
+                		var el = $(this);
+                		var os = el.offset();
+                		dx = e.pageX - os.left,dy = e.pageY - os.top;
+                		$("#map").on('mousemove.drag', function(e) { 
+            				el.offset({top: e.pageY - dy, left: e.pageX - dx}); 
+            				$("#map").off("click");
+            			});
+            		},
+   					mouseup: function(e) { 
+   						console.log(e);
+   						$("#map").off('mousemove.drag'); 
+   						$("#map").bind("click");
+   						console.log(3333);
+   					}
+            	})*/
+    		})
+		}
+	</script>
+</body>
+</html>

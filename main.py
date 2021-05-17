@@ -12,7 +12,7 @@ from libWidget.filechooser import ConfirmPopup
 
 import json
 
-WindowBase.softinput_mode = "below_target"
+WindowBase.softinput_mode = "pan"
 
 # Function libs
 
@@ -50,7 +50,7 @@ class MainApp(MDApp):
 
     # Functions for Navigation Ta
     def on_start(self):
-        from lib.bio_seq import Bio as FunBioSeq
+        from libs.bio_seq import Bio as FunBioSeq
 
         Fun = FunBioSeq()
         print(Fun.List())
@@ -73,14 +73,6 @@ class MainApp(MDApp):
             #X.font = self.List[x]['font']
             X.on_release = lambda Dic = x:self.add_tag(Dic)
             self.Widget_navi.ids.nav_button.add_widget(X)
-        '''
-            locals()["Btn_".format(self.List[i]['icon'])] =  MDRectangleFlatButton(
-                    text=self.List[i]['icon'],
-                    font_name = self.List[i]['font'],
-                    on_release =
-                        lambda x = i:self.add_tag(i))
-            self.Widget_navi.ids.nav_button.add_widget(locals()["Btn_".format(self.List[i]['icon'])])
-        '''
         #from libWidget.Seq import FunctionWidget as tmp
         Home_dic = json.load(open('config/home.json'))
         for i in list(Home_dic.keys())[::-1]:

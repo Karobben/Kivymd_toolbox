@@ -1,6 +1,17 @@
 {
-  "Seq":
-    {"icon":"篆体","title":"Sequencs Tools","font":"font/HuaKangXinZhuanTi-1"},
+  "Font":
+    {"icon":"篆体","title":"Fonttoo Tools","font":"font/HuaKangXinZhuanTi-1"},
   "editor":
-    {"icon":"Text Editor","title":"editor", "font":"font/FangZhengHeiTiFanTi-1"}
+    {"icon":"Text Editor","title":"editor", "font":"font/FangZhengHeiTiFanTi-1"},
+  "Seq":
+    {"icon":"DNA","title":"Sequencs Tools","font":"font/HuaKangXinZhuanTi-1"},
+  "CV_test":
+    {"icon":"CV","title":"CV","font":"font/HuaKangXinZhuanTi-1"},
+  "CV_cm":
+    {"icon":"CV face","title":"CV Face","font":"font/HuaKangXinZhuanTi-1"},
+  "Blog":
+    {"icon":"Blog","title":"Blog","font":"font/HuaKangXinZhuanTi-1"},
+  "Data_table":
+    {"icon":"Data_table","Data_table":"Blog","font":"font/HuaKangXinZhuanTi-1"}
+
 }
