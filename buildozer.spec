@@ -129,7 +129,7 @@ android.permissions =  INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, 
 #android.ndk_path =
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-android.sdk_path = /run/media/karobben/Data/Kivy2.0MD0.104.2.dP3.7.5/android-sdk/
+android.sdk_path = /run/media/ken/Data/Kivy2.0MD0.104.2.dP3.7.5/android-sdk/
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
@@ -274,7 +274,7 @@ log_level = 2
 warn_on_root = 1
 
 # (str) Path to build artifact storage, absolute or relative to spec file
-build_dir = /run/media/karobben/Data/Kivy2.0MD0.104.2.dP3.7.5/.buildozer
+build_dir = /run/media/ken/Data/Kivy2.0MD0.104.2.dP3.7.5/.buildozer
 
 # (str) Path to build output (i.e. .apk, .ipa) storage
 # bin_dir = ./bin

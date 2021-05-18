@@ -1,0 +1,61 @@
+BoxLayout:
+    orientation: "vertical"
+    show_pic: None
+    BoxLayout:
+        canvas:
+            Rectangle:
+                texture: root.show_pic
+                pos: self.pos
+                size: self.size
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                #color: 0, 0, 0, 1
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout
+            MDSlider:
+                id: slid_font
+                min: 0
+                max: 500
+                value: 0
+        BoxLayout:
+            MDLabel:
+                id: label
+                text: "Selecter Video"
+        BoxLayout
+            MDRaisedButton:
+                id: button_load
+                text: 'F'
+                font_size: 30
+                font_name: './font/heydings-icons-1'
+                width: root.width * 0.5
+                line_color: 1, 1, 1, 1
+            MDRaisedButton:
+                id: button_start
+                text: 'A'
+                font_size: 30
+                font_name: './font/heydings-icons-1'
+                width: root.width * 0.5
+                line_color: 1, 1, 1, 1
+
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            path: "."
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: test
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
