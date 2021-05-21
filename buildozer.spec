@@ -39,7 +39,7 @@ version = 1.0
 #requirements = python3,kivy,opencv-contrib-python,numpy,imutils
 requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip,
   openssl, requests, Urllib3, chardet, certifi, idna,
-  numpy, pillow==8.0.0, opencv,
+  numpy, pillow==8.0.0, opencv, ffmpeg, ffpyplayer, ffpyplayer_codecs,
   opencc-python-reimplemented, docutils, android,
   sqlite3, lxml, cymunk, pyjnius, twisted, plyer
 

@@ -27,12 +27,13 @@ class FunctionWidget():
         Builder.unload_file("Layout/CV_video_crop.kv")
         self.Function_page = Builder.load_file("Layout/CV_video_crop.kv")
         img = cv2.imread('logo.png')
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         #cap=cv2.VideoCapture("test.mp4")
         #ret,img=cap.read()
         # 画像をグレイスケールに変換
         #gray_img = cv2.cvtColor(img,1)
-        self.texture = Texture.create(size=(img.shape[1], img.shape[0]), colorfmt='bgr', bufferfmt='ubyte') # BGRモードで用意,ubyteはデフォルト引数なので指定なくてもよい
-        self.texture.blit_buffer(img.tostring(),colorfmt='bgr', bufferfmt='ubyte')  # ★ここもBGRで指定しないとRGBになって色の表示がおかしくなる
+        self.texture = Texture.create(size=(img.shape[1], img.shape[0]), colorfmt='rgb', bufferfmt='ubyte') # BGRモードで用意,ubyteはデフォルト引数なので指定なくてもよい
+        self.texture.blit_buffer(img.tostring(),colorfmt='rgb', bufferfmt='ubyte')  # ★ここもBGRで指定しないとRGBになって色の表示がおかしくなる
         self.texture.flip_vertical()
         self.Function_page.show_pic  = self.texture
         # Connect to the load popup
@@ -88,13 +89,24 @@ class FunctionWidget():
         print("WindowSize=",Window.height)
 
     def load(self, path, filename):
+        if platform == "android":
+            path = ""
+        path  = ""
+        filename = ["test.mp4"]
         self.filename = filename
         self.path = path
-        self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
-        fps_c = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
-        self.Function_page.ids.slid_font.max = fps_c
-        self.dismiss_popup()
-        self.Function_page.ids.label.text = filename[0]
+        print("file load: ",os.path.join(path, filename[0]))
+        try:
+            self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
+            #self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
+            fps_c = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
+            #self.Function_page.ids.slid_font.max = fps_c
+            print("path exist:", os.path.exists(os.path.join(path,filename[0])),"total fps:", fps_c,sep="\n")
+            self.dismiss_popup()
+            self.Function_page.ids.label.text = filename[0]
+        except:
+            print("file load faild.")
+            self.Function_page.ids.label.text = filename[0]+"\nload failed"
 
     def dismiss_popup(self):
         self._popup.dismiss()
