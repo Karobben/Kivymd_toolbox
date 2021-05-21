@@ -52,9 +52,9 @@ class Main():
 
         fps = fps_c
         size = (Video_w,Video_h)
-        fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
-        #fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        videowriter = cv2.VideoWriter(OUTPUT,fourcc,fps,size)
+        #fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        videowriter = cv2.VideoWriter(OUTPUT+".mp4",fourcc,fps,size)
 
 
 
