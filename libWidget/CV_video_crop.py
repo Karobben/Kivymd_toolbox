@@ -97,8 +97,8 @@ class FunctionWidget():
         self.path = path
         print("file load: ",os.path.join(path, filename[0]))
         try:
-            self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
             #self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
+            self.cap =cv2.VideoCapture(os.path.join(path, filename[0]))
             fps_c = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
             #self.Function_page.ids.slid_font.max = fps_c
             print("path exist:", os.path.exists(os.path.join(path,filename[0])),"total fps:", fps_c,sep="\n")
