@@ -16,6 +16,7 @@ class Main():
     OUTPUT = None
     Thre = None
     Back_progress = None
+    Format = "mp4"
     def progress_bar(self, i):
         '''
         A sample function for making an progress-bar
@@ -40,10 +41,12 @@ class Main():
       return Result
 
     # Acquiring the basic args of the video
-    def run(self, Back_progress, Progres_bar):
-        Video = File
-        cap=cv2.VideoCapture(Video)
-        ret,frame0 = cap.read()
+    def run(self, Back_progress, Progres_bar, Min, Max):
+        self.Back_progress = Back_progress
+        self.Progres_bar = Progres_bar
+        self.Video = File
+        cap=cv2.VideoCapture(self.Video)
+        ret,self.frame0 = cap.read()
         frames_Total=cap.get(7)
 
         fps_c = cap.get(cv2.CAP_PROP_FPS)
@@ -52,29 +55,80 @@ class Main():
 
         fps = fps_c
         size = (Video_w,Video_h)
-        #fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        videowriter = cv2.VideoWriter(OUTPUT+".mp4",fourcc,fps,size)
+        print(Format)
+        if Format == 'mp4':
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            OUTPUT = File + ".mp4"
+        elif Format == 'avi':
+            fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
+            OUTPUT = File + ".avi"
 
-
-
-        Result = []
-        fps_all = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        self.videowriter = cv2.VideoWriter(OUTPUT,fourcc,fps,size)
+        self.Result = []
+        self.fps_all = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         Num = 0
-        print(fps_all)
-        while Num +1 < fps_all:
-          Num += 1
-          ret,frame=cap.read()
-          if Num > 0:
-            Diff = self.Diff_img(frame0, frame)
-            Result += [Diff]
-            frame0 = frame
-            if Diff > Thre:
-              videowriter.write(frame0)
-          Back_progress.text =  str(round(Num /frames_Total * 100, 3))+"%"
-          Progres_bar.value = Num
-          #print("here", Back_progress.text)# = str(round(Num /frames_Total * 100, 3))+"%"
-          self.progress_bar(round(Num /frames_Total * 100, 3))
+        print(self.fps_all)
+        self.cap=cv2.VideoCapture(self.Video)
 
-        videowriter.release()
-        Back_progress.text = "processing is down"
+
+        #self.Processing_whole()
+        print("\n"*3,"video slice here: ",Max, Min)
+        if Min == "" and Max == "":
+            self.Processing_whole()
+        else:
+            if Min == "":
+                Min = 0
+            if Max == "":
+                Max == self.fps_all
+            print("from to:", Min, Max)
+            self.Processing_slice(Min, Max)
+
+
+    def Processing_whole(self):
+        '''
+        while function is much faster than for loop
+        '''
+        Num = 0
+        while Num +1 < self.fps_all:
+          Num += 1
+          ret,frame=self.cap.read()
+          if Num > 0:
+            Diff = self.Diff_img(self.frame0, frame)
+            self.Result += [Diff]
+            self.frame0 = frame
+            if Diff > Thre:
+              self.videowriter.write(self.frame0)
+          Progress_Num = round(Num /self.fps_all * 100, 3)
+          self.Back_progress.text =  "".join([str(Progress_Num), "%\n",
+                "[b][color=#3697ce]I[/color][/b]"* int(Progress_Num/5),
+                "[b][color=#ce4c36]I[/color][/b]"* (20-int(Progress_Num/5))])
+          self.Progres_bar.value = Num
+          self.progress_bar(round(Num /self.fps_all * 100, 3))
+        self.videowriter.release()
+        self.Back_progress.text = "processing is down"
+
+    def Processing_slice(self, Min, Max):
+        '''
+        For loop could save your time for slicing
+        But it runs slower about 1/5 than while loop
+        '''
+        Min = int(Min)
+        Max = int(Max)
+        Num = 0
+        for i in range(Min,Max):
+          ret,frame=self.cap.read()
+          Diff = self.Diff_img(self.frame0, frame)
+          self.Result += [Diff]
+          self.frame0 = frame
+          if Diff > Thre:
+            self.videowriter.write(self.frame0)
+          Progress_Num = round(Num /(Max - Min) * 100, 3)
+          self.Back_progress.text =  "".join([str(Progress_Num), "%\n",
+               "[b][color=#3697ce]I[/color][/b]"* int(Progress_Num/5),
+            "[b][color=#ce4c36]I[/color][/b]"* (20-int(Progress_Num/5))])
+          self.Progres_bar.value = Num
+          self.progress_bar(round(Num /(Max - Min) * 100, 3))
+          Num += 1
+
+        self.videowriter.release()
+        self.Back_progress.text = "processing is down"

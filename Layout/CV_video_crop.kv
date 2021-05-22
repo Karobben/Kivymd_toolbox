@@ -2,6 +2,8 @@ BoxLayout:
     orientation: "vertical"
     show_pic: None
     BoxLayout:
+        id: can_box
+        test: root.size
         canvas:
             Rectangle:
                 texture: root.show_pic
@@ -17,10 +19,67 @@ BoxLayout:
                 min: 0
                 max: 500
                 value: 0
+        MDLabel:
+            id: label
+            markup: True
+            text: "Selecter Video"
         BoxLayout:
-            MDLabel:
-                id: label
-                text: "Selecter Video"
+            BoxLayout:
+                BoxLayout:
+                    orientation: "vertical"
+                    MDLabel:
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        text: "Thresholds:"
+                    MDTextField:
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        id: thresholds
+                        text: "20000"
+                        helper_text: "The value for deleting frames"
+                        helper_text_mode: "on_focus"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    MDLabel:
+                        markup: True
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        text: "Format: [color=#d4d4d4](only one)[/color]"
+
+                    MDBoxLayout:
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        orientation: "vertical"
+                        MDBoxLayout:
+                            MDCheckbox:
+                                id: format_mp4
+                                active: True
+                            MDLabel:
+                                text: "mp4"
+                        MDBoxLayout
+                            MDCheckbox:
+                                id: format_avi
+                            MDLabel:
+                                text: "avi"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    MDLabel:
+                        markup: True
+                        text: "Slice [color=#d4d4d4]Seconds, float[/color]"
+                    MDBoxLayout:
+                        MDBoxLayout:
+
+                            padding: 10, 0, 10, 0
+                            MDTextFieldRect:
+                                id: sclice_min
+                                text: ""
+                                hint_text: "from"
+                        MDBoxLayout:
+                            padding: 10, 0, 10, 0
+
+                            MDTextFieldRect:
+                                id: sclice_max
+                                text: ""
+                                hint_text: "to"
+
         BoxLayout
             MDRaisedButton:
                 id: button_load
@@ -31,15 +90,15 @@ BoxLayout:
                 line_color: 1, 1, 1, 1
             MDRaisedButton:
                 id: button_start
-                text: 'A'
+                text: 'P'
                 font_size: 30
-                font_name: './font/heydings-icons-1'
+                font_name: './font/heydings-controls-1'
                 width: root.width * 0.5
                 line_color: 1, 1, 1, 1
 
 
 
-<LoadDialog>:
+<CV_crop_LoadDialog>:
     BoxLayout:
         size: root.size
         pos: root.pos

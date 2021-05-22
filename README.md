@@ -15,7 +15,10 @@ Functions:
 - [x] [Editor](#user-content-editor)
 - [x] [Web Server](#user-content-web-server)
 - [X] [Opencv and Camera](#user-content-opencv-camera)
-- [ ] [Video Crop](#user-content-video-crop)
+- [X] [Video Crop](#user-content-video-crop)
+  - [x] Set a thresholds
+  - [x] different format for output
+  - [x] Slice
 
 # Font
 
@@ -44,3 +47,8 @@ You can either open the default browser or using the android webbrowser server t
 # OpenCV camera
 
 [More Details](https://karobben.github.io/2021/05/15/Python/kivy-inaction-tb-8/)
+
+# Video Crop
+This is a Widget for deleting the same frames. It works as:
+$Video =  \sum_{i=0}^{n} frame_n$
+$New\ Video = \sum_{i=0}^{n}frame_ {n-1}((frame_n - frame_{n-1})> Thresholds)$
