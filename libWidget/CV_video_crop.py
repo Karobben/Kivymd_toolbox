@@ -13,6 +13,7 @@ from kivy.uix.widget import Widget
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
 from kivy.properties import ObjectProperty
+from kivy.clock import Clock
 
 
 # My functions for cropping
@@ -45,8 +46,11 @@ class FunctionWidget():
         self.Function_page.ids.slid_font.bind( on_touch_move = self.CV_play, on_touch_up = self.CV_play)
         return self.Function_page
 
-    def build():
-        print("\n"*4, "build is here")
+    def update(self, *args):
+        #print("\n"*4, "build is here")
+        self.cap.set(cv2.CAP_PROP_POS_FRAMES,self.Function_page.ids.slid_font.value )
+        a, img=self.cap.read()
+        self.texture.blit_buffer(img.tobytes(),colorfmt='bgr', bufferfmt='ubyte')
 
     def CV_play(self, *arg):
         '''
@@ -83,19 +87,20 @@ class FunctionWidget():
         CV_SFDel = CV_SFD.Main()
         #CV_SFDel.run()
         # Starting processing the video. function try&except here is for avioding repeated procedures.
+        ARGS_progress = (self.Function_page.ids.label, self.Function_page.ids.slid_font,
+        self.Function_page.ids.sclice_min.text,
+        self.Function_page.ids.sclice_max.text)
         try:
             print("Check Here", self.Processin.is_alive())
             if self.Processin.is_alive() != True:
                 print("second time")
-                self.Processin = threading.Thread(target=CV_SFDel.run, args=(self.Function_page.ids.label, self.Function_page.ids.slid_font,
-                self.Function_page.ids.sclice_min.text,
-                self.Function_page.ids.sclice_max.text))
+                self.Processin = threading.Thread(target=CV_SFDel.run,
+                    args=ARGS_progress)
                 self.Processin.start()
         except:
             print("first time")
-            self.Processin = threading.Thread(target=CV_SFDel.run, args=(self.Function_page.ids.label, self.Function_page.ids.slid_font,
-            self.Function_page.ids.sclice_min.text,
-            self.Function_page.ids.sclice_max.text))
+            self.Processin = threading.Thread(target=CV_SFDel.run,
+                args = ARGS_progress)
             self.Processin.start()
 
 
@@ -140,6 +145,7 @@ class FunctionWidget():
             print("path exist:", os.path.exists(os.path.join(path,filename[0])),"total fps:", fps_c,sep="\n")
             self.dismiss_popup()
             self.Function_page.ids.label.text = filename[0]
+            Clock.schedule_interval(self.update, 1)
         except:
             print("file load faild.")
             self.Function_page.ids.label.text = filename[0]+"\nload failed"

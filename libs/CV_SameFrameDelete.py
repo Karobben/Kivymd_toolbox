@@ -54,6 +54,7 @@ class Main():
         Video_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
         fps = fps_c
+        print("fps =", fps)
         size = (Video_w,Video_h)
         print(Format)
         if Format == 'mp4':
@@ -116,6 +117,7 @@ class Main():
         Max = int(Max)
         Num = 0
         for i in range(Min,Max):
+          self.cap.set(cv2.CAP_PROP_POS_FRAMES, i)
           ret,frame=self.cap.read()
           Diff = self.Diff_img(self.frame0, frame)
           self.Result += [Diff]
