@@ -52,3 +52,4 @@ You can either open the default browser or using the android webbrowser server t
 This is a Widget for deleting the same frames. It works as:
 $Video =  \sum_{i=0}^{n} frame_n$
 $New\ Video = \sum_{i=0}^{n}frame_ {n-1}((frame_n - frame_{n-1})> Thresholds)$
+When slicing the whole video, we are using while loop, which is much faster than for loop. When you set a frame range for the video, we are using for loop, wich is really slow.
