@@ -80,7 +80,7 @@ class Main():
             if Min == "":
                 Min = 0
             if Max == "":
-                Max == self.fps_all
+                Max = self.fps_all
             print("from to:", Min, Max)
             self.Processing_slice(Min, Max)
 

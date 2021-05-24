@@ -50,7 +50,10 @@ class FunctionWidget():
         #print("\n"*4, "build is here")
         self.cap.set(cv2.CAP_PROP_POS_FRAMES,self.Function_page.ids.slid_font.value )
         a, img=self.cap.read()
-        self.texture.blit_buffer(img.tobytes(),colorfmt='bgr', bufferfmt='ubyte')
+        try:
+            self.texture.blit_buffer(img.tobytes(),colorfmt='bgr', bufferfmt='ubyte')
+        except:
+            print("Error code: 501")
 
     def CV_play(self, *arg):
         '''
