@@ -12,8 +12,8 @@
   "Blog":
     {"icon":"Blog","title":"Blog","font":"font/HuaKangXinZhuanTi-1"},
   "Data_table":
-    {"icon":"Data_table","Data_table":"Blog","font":"font/HuaKangXinZhuanTi-1"},
-  "test":
-    {"icon":"test","Data_table":"Blog","font":"font/HuaKangXinZhuanTi-1"}
+    {"icon":"Data_table","title":"Blog","font":"font/HuaKangXinZhuanTi-1"},
+  "CV_img2video":
+    {"icon":"img2vide/gif","title":"img2vide/gif","font":"font/HuaKangXinZhuanTi-1"}
 
 }

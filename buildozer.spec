@@ -41,9 +41,10 @@ requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip,
   openssl, requests, Urllib3, chardet, certifi, idna,
   numpy, pillow==8.0.0, opencv, ffmpeg, ffpyplayer, ffpyplayer_codecs,
   opencc-python-reimplemented, docutils, android,
-  sqlite3, lxml, cymunk, pyjnius, twisted, plyer
+  sqlite3, lxml, cymunk, pyjnius, twisted, plyer, imageio
 
 
+# imageio for image to gif
 # openssl, requests, Urllib3, chardet, certifi, and idna for request
 # numpy, pillow==8.0.0, opencv for opencv
 # opencc-python-reimplemented: transplate chinese to traditional chinese
@@ -54,7 +55,6 @@ requirements = kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/master.zip,
 # xmltramp2 for sequence align
 # plumbing, matplotlib, sh, tqdm, and autopaths for module fasta
 # plyer, pytube3, prettytable,
-
 
 
 
